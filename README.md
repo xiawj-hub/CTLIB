@@ -38,7 +38,7 @@ You may fail to install this lib because
 
 ``scan_type``: int, ``0`` is equal distance fan beam, ``1`` is euql angle fan beam and ``2`` is parallel beam
 
-``image``: 4D torch tensor, $B\times 1\times H\times W$,
+``image``: 4D torch tensor, `$B\times 1\times H\times W$,
 
 ``projection``: 4D torch tensor, $B\times 1\times V\times D$, V is the total number of scanning views, D is the total number of detector bins
 

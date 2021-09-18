@@ -24,11 +24,12 @@ You may fail to install this lib because
 2) The bug of pytorch. You can search the error code and find the solution in Stackoverflow.
 
 ## API
-```
-projection(image, options, scan_type):'projector'
-backprojection(projection, options, scan_type)
-fbp_projection(image, options, scan_type)
-fbp_backprojection(projection, options, scan_type)
-fbp(projection, options, scan_typ)
-laplacian(input, k)
-```
+``projection(image, options, scan_type)``: Projector of CT
+``backprojection(projection, options, scan_type)``: Transpose of projector
+``fbp_projection(image, options, scan_type)``: Transpose of backprojector
+``fbp_backprojection(projection, options, scan_type)``: Backprojector of CT
+``fbp(projection, options, scan_typ)``: FBP with RL filter
+``laplacian(input, k)``: Computation of adjancency matrix
+``image``: 4 D torch tensor, B*1*H*W,
+``projection``: 4D torch tensor, B*1*V*D, V is the total number of scan views, D is the total number of detector bins
+``options``: 

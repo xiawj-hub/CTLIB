@@ -42,26 +42,26 @@ You may fail to install this lib because
 
 ``projection``: 4D torch tensor, B x 1 x V x D, V is the total number of scanning views, D is the total number of detector bins
 
-``options``: 11D torch vector, scanning geometry parameters, including
+``options``: 11D torch vector for fan beam and 9D torch vector for parallel beam, scanning geometry parameters, including
 
-&nbsp;&nbsp``views``: Number of scanning views
+``views``: Number of scanning views
 
-&nbsp;&nbsp``dets``: Number of detector bins
+``dets``: Number of detector bins
 
-&nbsp;&nbsp``width`` and ``height``: Spatial resolution of images
+``width`` and ``height``: Spatial resolution of images
 
-&nbsp;&nbsp``dImg``: Physical length of a pixel
+``dImg``: Physical length of a pixel
 
-&nbsp;&nbsp``dDet``: Interval between two adjacent detector bins, especially, ``rad`` for equal angle fan beam
+``dDet``: Interval between two adjacent detector bins, especially, ``rad`` for equal angle fan beam
 
-&nbsp;&nbsp``Ang0``: Starting angle
+``Ang0``: Starting angle
 
-&nbsp;&nbsp``dAng``: Interval between two adjacent scanning views: ``rad``
+``dAng``: Interval between two adjacent scanning views: ``rad``
 
-&nbsp;&nbsp``s2r``: The distance between x-ray source and rotation center
+``s2r``: The distance between x-ray source and rotation center
 
-&nbsp;&nbsp``d2r``: The distance between detector and roration center
+``d2r``: The distance between detector and roration center
 
-&nbsp;&nbsp``binshift``: The shift of the detector
+``binshift``: The shift of the detector
 
-
+Especially, in parallel bearm, ``options``doesn't have 's2r' and 'd2r'.

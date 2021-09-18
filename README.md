@@ -1,6 +1,8 @@
 # CTLIB
 A lib of CT projector and back-projector based on PyTorch
+
 Coded with distance driven method [1, 2]
+
 If you use the code, please cite our work
 ```
 @article{xia2021magic,

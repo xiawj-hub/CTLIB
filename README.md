@@ -11,3 +11,22 @@ If you use the code, please cite our work
   publisher={IEEE}
 }
 ```
+## Installation
+Make sure PyTorch and CUDA have been installed correctly and then
+```
+python setup.py install
+```
+
+For linux installation, remove 'library_dirs' and 'extra_link_args' in setup.py first.
+
+You may fail to install this lib because
+1) Your linux version is Ubuntu 18.04 or higher, this lib will be fialed to complie with g++ 7. You need to install the lower version of g++ and gcc.
+2) The bug of pytorch. You can search the error code and find the solution in Stackoverflow.
+
+## API
+projection(image, options, scan_type)
+backprojection(projection, options, scan_type)
+fbp_projection(image, options, scan_type)
+fbp_backprojection(projection, options, scan_type)
+fbp(projection, options, scan_typ)
+laplacian(input, k)

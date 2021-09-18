@@ -36,13 +36,15 @@ You may fail to install this lib because
 
 ``laplacian(input, k)``: Computation of adjancency matrix
 
-``image``: 4 D torch tensor, B*1*H*W,
+``scan_type``: int, ``0`` is equal distance fan beam, ``1`` is euql angle fan beam and ``2`` is parallel beam
 
-``projection``: 4D torch tensor, B*1*V*D, V is the total number of scanning views, D is the total number of detector bins
+``image``: 4D torch tensor, $B\times 1\times H\times W$,
 
-``options``: 11 D torch vector, scanning geometry parameters, including
+``projection``: 4D torch tensor, $B\times 1\times V\times D$, V is the total number of scanning views, D is the total number of detector bins
 
-``views``: Number of scanning views
+``options``: 11D torch vector, scanning geometry parameters, including
+
+\t``views``: Number of scanning views
 
 ``dets``: Number of detector bins
 
@@ -62,4 +64,4 @@ You may fail to install this lib because
 
 ``binshift``: The shift of the detector
 
-``scan_type``: int, ``0`` is equal distance fan beam, ``1`` is euql angle fan beam and ``2`` is parallel beam
+

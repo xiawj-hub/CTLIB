@@ -25,11 +25,41 @@ You may fail to install this lib because
 
 ## API
 ``projection(image, options, scan_type)``: Projector of CT
+
 ``backprojection(projection, options, scan_type)``: Transpose of projector
+
 ``fbp_projection(image, options, scan_type)``: Transpose of backprojector
+
 ``fbp_backprojection(projection, options, scan_type)``: Backprojector of CT
+
 ``fbp(projection, options, scan_typ)``: FBP with RL filter
+
 ``laplacian(input, k)``: Computation of adjancency matrix
+
 ``image``: 4 D torch tensor, B*1*H*W,
-``projection``: 4D torch tensor, B*1*V*D, V is the total number of scan views, D is the total number of detector bins
-``options``: 
+
+``projection``: 4D torch tensor, B*1*V*D, V is the total number of scanning views, D is the total number of detector bins
+
+``options``: 11 D torch vector, scanning geometry parameters, including
+
+``views``: Number of scanning views
+
+``dets``: Number of detector bins
+
+``width`` and ``height``: Spatial resolution of images
+
+``dImg``: Physical length of a pixel
+
+``dDet``: Interval between two adjacent detector bins, especially, ``rad`` for equal angle fan beam
+
+``Ang0``: Starting angle
+
+``dAng``: Interval between two adjacent scanning views: ``rad``
+
+``s2r``: The distance between x-ray source and rotation center
+
+``d2r``: The distance between detector and roration center
+
+``binshift``: The shift of the detector
+
+``scan_type``: int, ``0`` is equal distance fan beam, ``1`` is euql angle fan beam and ``2`` is parallel beam

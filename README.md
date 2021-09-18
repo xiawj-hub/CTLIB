@@ -24,9 +24,11 @@ You may fail to install this lib because
 2) The bug of pytorch. You can search the error code and find the solution in Stackoverflow.
 
 ## API
-projection(image, options, scan_type)
+```
+projection(image, options, scan_type):'projector'
 backprojection(projection, options, scan_type)
 fbp_projection(image, options, scan_type)
 fbp_backprojection(projection, options, scan_type)
 fbp(projection, options, scan_typ)
 laplacian(input, k)
+```

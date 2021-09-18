@@ -44,7 +44,7 @@ You may fail to install this lib because
 
 ``options``: 11D torch vector, scanning geometry parameters, including
 
-\t``views``: Number of scanning views
+  ``views``: Number of scanning views
 
 ``dets``: Number of detector bins
 

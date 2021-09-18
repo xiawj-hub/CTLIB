@@ -1,6 +1,6 @@
 # CTLIB
 A lib of CT projector and back-projector based on PyTorch
-
+Coded with distance driven method [1, 2]
 If you use the code, please cite our work
 ```
 @article{xia2021magic,
@@ -64,3 +64,10 @@ You may fail to install this lib because
 
 ``binshift``: The shift of the detector
 
+[1] B. De Man and S. Basu, “Distance-driven projection and backprojection,”
+in IEEE Nucl. Sci. Symp. Conf. Record, vol. 3, 2002, pp. 1477–80.
+
+[2] B. De Man and S. Basu, “Distance-driven projection and backprojection in three dimensions,”
+Phys. Med. Biol., vol. 49, no. 11, p. 2463, 2004.
+
+[3] Xia, W., Lu, Z., Huang, Y., Shi, Z., Liu, Y., Chen, H., ... & Zhang, Y. (2021). MAGIC: Manifold and Graph Integrative Convolutional Network for Low-Dose CT Reconstruction. IEEE Transactions on Medical Imaging.

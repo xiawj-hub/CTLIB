@@ -17,7 +17,7 @@ Make sure PyTorch and CUDA have been installed correctly and then
 python setup.py install
 ```
 
-For linux installation, remove 'library_dirs' and 'extra_link_args' in setup.py first.
+For linux installation, remove `library_dirs` and `extra_link_args` in setup.py first.
 
 You may fail to install this lib because
 1) Your linux version is Ubuntu 18.04 or higher, this lib will be fialed to complie with g++ 7. You need to install the lower version of g++ and gcc.
@@ -34,7 +34,7 @@ You may fail to install this lib because
 
 ``fbp(projection, options, scan_typ)``: FBP with RL filter
 
-``laplacian(input, k)``: Computation of adjancency matrix
+``laplacian(input, k)``: Computation of adjancency matrix in [3]
 
 ``scan_type``: int, ``0`` is equal distance fan beam, ``1`` is euql angle fan beam and ``2`` is parallel beam
 
@@ -52,16 +52,15 @@ You may fail to install this lib because
 
 ``dImg``: Physical length of a pixel
 
-``dDet``: Interval between two adjacent detector bins, especially, ``rad`` for equal angle fan beam
+``dDet``: Interval between two adjacent detector bins, especially, interval is ``rad`` for equal angle fan beam
 
 ``Ang0``: Starting angle
 
 ``dAng``: Interval between two adjacent scanning views: ``rad``
 
-``s2r``: The distance between x-ray source and rotation center
+``s2r``: The distance between x-ray source and rotation center, not needed in parallel beam
 
-``d2r``: The distance between detector and roration center
+``d2r``: The distance between detector and roration center, not needed in parallel beam
 
 ``binshift``: The shift of the detector
 
-Especially, in parallel bearm, ``options``doesn't have 's2r' and 'd2r'.

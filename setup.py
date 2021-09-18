@@ -9,7 +9,6 @@ setup(
         CUDAExtension('ctlib', [
             'src/ctlib.cpp',
             'src/fan_ed_kernel.cu',
-            'src/fan_ed_view.cu',
             'src/fan_ea_kernel.cu',
             'src/para_kernel.cu',
             'src/laplacian_cuda_kernel.cu',

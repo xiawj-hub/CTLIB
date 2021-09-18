@@ -38,30 +38,30 @@ You may fail to install this lib because
 
 ``scan_type``: int, ``0`` is equal distance fan beam, ``1`` is euql angle fan beam and ``2`` is parallel beam
 
-``image``: 4D torch tensor, `$B\times 1\times H\times W$,
+``image``: 4D torch tensor, B x 1 x H x W,
 
-``projection``: 4D torch tensor, $B\times 1\times V\times D$, V is the total number of scanning views, D is the total number of detector bins
+``projection``: 4D torch tensor, B x 1 x V x D, V is the total number of scanning views, D is the total number of detector bins
 
 ``options``: 11D torch vector, scanning geometry parameters, including
 
-  ``views``: Number of scanning views
+&nbsp;&nbsp``views``: Number of scanning views
 
-``dets``: Number of detector bins
+&nbsp;&nbsp``dets``: Number of detector bins
 
-``width`` and ``height``: Spatial resolution of images
+&nbsp;&nbsp``width`` and ``height``: Spatial resolution of images
 
-``dImg``: Physical length of a pixel
+&nbsp;&nbsp``dImg``: Physical length of a pixel
 
-``dDet``: Interval between two adjacent detector bins, especially, ``rad`` for equal angle fan beam
+&nbsp;&nbsp``dDet``: Interval between two adjacent detector bins, especially, ``rad`` for equal angle fan beam
 
-``Ang0``: Starting angle
+&nbsp;&nbsp``Ang0``: Starting angle
 
-``dAng``: Interval between two adjacent scanning views: ``rad``
+&nbsp;&nbsp``dAng``: Interval between two adjacent scanning views: ``rad``
 
-``s2r``: The distance between x-ray source and rotation center
+&nbsp;&nbsp``s2r``: The distance between x-ray source and rotation center
 
-``d2r``: The distance between detector and roration center
+&nbsp;&nbsp``d2r``: The distance between detector and roration center
 
-``binshift``: The shift of the detector
+&nbsp;&nbsp``binshift``: The shift of the detector
 
 

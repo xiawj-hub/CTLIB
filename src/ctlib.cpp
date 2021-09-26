@@ -12,9 +12,10 @@
 #define Fan_Equal_Angle 1
 #define Para 2
 
-torch::Tensor fbp_projection(torch::Tensor image, torch::Tensor options, int scan_type) {
+torch::Tensor fbp_projection(torch::Tensor image, torch::Tensor options) {
   CHECK_INPUT(image);
   CHECK_INPUT(options);
+  int scan_type = options[static_cast<int>(options.size(0))-1].item<int>();
   if (scan_type == Fan_Equal_Distance){
     return fbp_prj_fan_ed_cuda(image, options);
   } else if (scan_type == Fan_Equal_Angle) {
@@ -26,23 +27,25 @@ torch::Tensor fbp_projection(torch::Tensor image, torch::Tensor options, int sca
   }
 }
 
-torch::Tensor fbp_backprojection(torch::Tensor projection, torch::Tensor options, int scan_type) {
+torch::Tensor fbp_backprojection(torch::Tensor projection, torch::Tensor options) {
   CHECK_INPUT(projection);
   CHECK_INPUT(options);
+  int scan_type = options[static_cast<int>(options.size(0))-1].item<int>();
   if (scan_type == Fan_Equal_Distance){
-    return fbp_bprj_fan_ed_cuda(image, options);
+    return fbp_bprj_fan_ed_cuda(projection, options);
   } else if (scan_type == Fan_Equal_Angle) {
-    return fbp_bprj_fan_ea_cuda(image, options);
+    return fbp_bprj_fan_ea_cuda(projection, options);
   } else if (scan_type == Para) {
-    return fbp_bprj_para_cuda(image, options);
+    return fbp_bprj_para_cuda(projection, options);
   } else {
     exit(0);
   }
 }
 
-torch::Tensor projection(torch::Tensor image, torch::Tensor options, int scan_type) {
+torch::Tensor projection(torch::Tensor image, torch::Tensor options) {
   CHECK_INPUT(image);
   CHECK_INPUT(options);
+  int scan_type = options[static_cast<int>(options.size(0))-1].item<int>();
   if (scan_type == Fan_Equal_Distance){
     return prj_fan_ed_cuda(image, options);
   } else if (scan_type == Fan_Equal_Angle) {
@@ -54,9 +57,10 @@ torch::Tensor projection(torch::Tensor image, torch::Tensor options, int scan_ty
   }
 }
 
-torch::Tensor backprojection(torch::Tensor projection, torch::Tensor options, int scan_type) {
+torch::Tensor backprojection(torch::Tensor projection, torch::Tensor options) {
   CHECK_INPUT(projection);
   CHECK_INPUT(options);
+  int scan_type = options[static_cast<int>(options.size(0))-1].item<int>();
   if (scan_type == Fan_Equal_Distance){
     return bprj_fan_ed_cuda(projection, options);
   } else if (scan_type == Fan_Equal_Angle) {
@@ -68,9 +72,10 @@ torch::Tensor backprojection(torch::Tensor projection, torch::Tensor options, in
   }
 }
 
-torch::Tensor fbp(torch::Tensor projection, torch::Tensor options, int scan_type) {
+torch::Tensor fbp(torch::Tensor projection, torch::Tensor options) {
   CHECK_INPUT(projection);
   CHECK_INPUT(options);
+  int scan_type = options[static_cast<int>(options.size(0))-1].item<int>();
   if (scan_type == Fan_Equal_Distance){
     return fbp_fan_ed_cuda(projection, options);
   } else if (scan_type == Fan_Equal_Angle) {

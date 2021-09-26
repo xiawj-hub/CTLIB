@@ -5,5 +5,7 @@
 torch::Tensor prj_para_cuda(torch::Tensor image, torch::Tensor options);
 torch::Tensor bprj_para_cuda(torch::Tensor projection, torch::Tensor options);
 torch::Tensor fbp_para_cuda(torch::Tensor projection, torch::Tensor options);
+torch::Tensor fbp_prj_para_cuda(torch::Tensor image, torch::Tensor options);
+torch::Tensor fbp_bprj_para_cuda(torch::Tensor projection, torch::Tensor options);
 
 #endif

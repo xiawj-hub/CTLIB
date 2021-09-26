@@ -653,14 +653,14 @@ __global__ void fbp_prj_fan_ea(
                         prepixbound = pixbound;
                         pixbound = map_y(sourcex, sourcey, i0x, i0y);
                     }else if (pixbound < detbound) {
-                        threadprj += (pixbound - prebound) * image[idxchannel][0][static_cast<int>(*height)-1-idxi][idxcol] / (pixbound - prepixbound) / cweight(sourcex, sourcey, i0x, i0y - dImage / 2, s0);
+                        threadprj += (pixbound - prebound) * image[idxchannel][0][static_cast<int>(*height)-1-idxi][idxcol] / (pixbound - prepixbound) / cweight(sourcex, sourcey, i0x, i0y - dImage / 2);
                         prebound = pixbound;
                         idxi ++;
                         i0y += dImage;
                         prepixbound = pixbound;
                         pixbound = map_y(sourcex, sourcey, i0x, i0y);
                     } else {
-                        threadprj += (detbound - prebound) * image[idxchannel][0][static_cast<int>(*height)-1-idxi][idxcol] / (pixbound - prepixbound) / cweight(sourcex, sourcey, i0x, i0y - dImage / 2, s0);
+                        threadprj += (detbound - prebound) * image[idxchannel][0][static_cast<int>(*height)-1-idxi][idxcol] / (pixbound - prepixbound) / cweight(sourcex, sourcey, i0x, i0y - dImage / 2);
                         prebound = detbound;
                         atomicAdd(prj+idxd, threadprj);
                         threadprj = 0;
@@ -924,7 +924,7 @@ torch::Tensor prj_fan_ea_cuda(torch::Tensor image, torch::Tensor options) {
     auto height = options[3];
     auto dImg = options[4];
     auto dDet = options[5];
-    auto Ang0 = options[6]
+    auto Ang0 = options[6];
     auto dAng = options[7];
     auto s2r = options[8];
     auto d2r = options[9];
@@ -958,7 +958,7 @@ torch::Tensor bprj_fan_ea_cuda(torch::Tensor projection, torch::Tensor options) 
     auto height = options[3];
     auto dImg = options[4];
     auto dDet = options[5];
-    auto Ang0 = options[6]
+    auto Ang0 = options[6];
     auto dAng = options[7];
     auto s2r = options[8];
     auto d2r = options[9];
@@ -992,7 +992,7 @@ torch::Tensor fbp_prj_fan_ea_cuda(torch::Tensor image, torch::Tensor options) {
     auto height = options[3];
     auto dImg = options[4];
     auto dDet = options[5];
-    auto Ang0 = options[6]
+    auto Ang0 = options[6];
     auto dAng = options[7];
     auto s2r = options[8];
     auto d2r = options[9];
@@ -1026,7 +1026,7 @@ torch::Tensor fbp_bprj_fan_ea_cuda(torch::Tensor projection, torch::Tensor optio
     auto height = options[3];
     auto dImg = options[4];
     auto dDet = options[5];
-    auto Ang0 = options[6]
+    auto Ang0 = options[6];
     auto dAng = options[7];
     auto s2r = options[8];
     auto d2r = options[9];
@@ -1060,7 +1060,7 @@ torch::Tensor fbp_fan_ea_cuda(torch::Tensor projection, torch::Tensor options) {
     auto height = options[3];
     auto dImg = options[4];
     auto dDet = options[5];
-    auto Ang0 = options[6]
+    auto Ang0 = options[6];
     auto dAng = options[7];
     auto s2r = options[8];
     auto d2r = options[9];

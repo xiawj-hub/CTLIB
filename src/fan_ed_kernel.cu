@@ -946,7 +946,7 @@ torch::Tensor prj_fan_ed_cuda(torch::Tensor image, torch::Tensor options) {
     auto height = options[3];
     auto dImg = options[4];
     auto dDet = options[5];
-    auto Ang0 = options[6]
+    auto Ang0 = options[6];
     auto dAng = options[7];
     auto s2r = options[8];
     auto d2r = options[9];
@@ -980,7 +980,7 @@ torch::Tensor bprj_fan_ed_cuda(torch::Tensor projection, torch::Tensor options) 
     auto height = options[3];
     auto dImg = options[4];
     auto dDet = options[5];
-    auto Ang0 = options[6]
+    auto Ang0 = options[6];
     auto dAng = options[7];
     auto s2r = options[8];
     auto d2r = options[9];
@@ -1014,7 +1014,7 @@ torch::Tensor fbp_prj_fan_ed_cuda(torch::Tensor image, torch::Tensor options) {
     auto height = options[3];
     auto dImg = options[4];
     auto dDet = options[5];
-    auto Ang0 = options[6]
+    auto Ang0 = options[6];
     auto dAng = options[7];
     auto s2r = options[8];
     auto d2r = options[9];
@@ -1048,7 +1048,7 @@ torch::Tensor fbp_bprj_fan_ed_cuda(torch::Tensor projection, torch::Tensor optio
     auto height = options[3];
     auto dImg = options[4];
     auto dDet = options[5];
-    auto Ang0 = options[6]
+    auto Ang0 = options[6];
     auto dAng = options[7];
     auto s2r = options[8];
     auto d2r = options[9];
@@ -1082,7 +1082,7 @@ torch::Tensor fbp_fan_ed_cuda(torch::Tensor projection, torch::Tensor options) {
     auto height = options[3];
     auto dImg = options[4];
     auto dDet = options[5];
-    auto Ang0 = options[6]
+    auto Ang0 = options[6];
     auto dAng = options[7];
     auto s2r = options[8];
     auto d2r = options[9];

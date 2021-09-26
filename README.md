@@ -26,25 +26,23 @@ You may fail to install this lib because
 2) The bug of pytorch. You can search the error code and find the solution in Stackoverflow.
 
 ## API
-``projection(image, options, scan_type)``: Projector of CT
+``projection(image, options)``: Projector of CT
 
-``backprojection(projection, options, scan_type)``: Transpose of projector
+``backprojection(projection, options)``: Transpose of projector
 
-``fbp_projection(image, options, scan_type)``: Transpose of backprojector
+``fbp_projection(image, options)``: Transpose of backprojector
 
-``fbp_backprojection(projection, options, scan_type)``: Backprojector of CT
+``fbp_backprojection(projection, options)``: Backprojector of CT
 
-``fbp(projection, options, scan_typ)``: FBP with RL filter
+``fbp(projection, options)``: FBP with RL filter
 
 ``laplacian(input, k)``: Computation of adjancency matrix in [3]
-
-``scan_type``: int, ``0`` is equal distance fan beam, ``1`` is euql angle fan beam and ``2`` is parallel beam
 
 ``image``: 4D torch tensor, B x 1 x H x W,
 
 ``projection``: 4D torch tensor, B x 1 x V x D, V is the total number of scanning views, D is the total number of detector bins
 
-``options``: 11D torch vector for fan beam and 9D torch vector for parallel beam, scanning geometry parameters, including
+``options``: 12D torch vector for fan beam and 9D torch vector for parallel beam, scanning geometry parameters, including
 
 ``views``: Number of scanning views
 
@@ -65,6 +63,8 @@ You may fail to install this lib because
 ``d2r``: The distance between detector and roration center, not needed in parallel beam
 
 ``binshift``: The shift of the detector
+
+``scan_type``: ``0`` is equal distance fan beam, ``1`` is euql angle fan beam and ``2`` is parallel beam
 
 [1] B. De Man and S. Basu, “Distance-driven projection and backprojection,”
 in IEEE Nucl. Sci. Symp. Conf. Record, vol. 3, 2002, pp. 1477–80.

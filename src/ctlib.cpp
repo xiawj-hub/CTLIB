@@ -12,31 +12,31 @@
 #define Fan_Equal_Angle 1
 #define Para 2
 
-torch::Tensor fbp_projection(torch::Tensor image, torch::Tensor options) {
+torch::Tensor backprojection_t(torch::Tensor image, torch::Tensor options) {
   CHECK_INPUT(image);
   CHECK_INPUT(options);
   int scan_type = options[static_cast<int>(options.size(0))-1].item<int>();
   if (scan_type == Fan_Equal_Distance){
-    return fbp_prj_fan_ed_cuda(image, options);
+    return bprj_t_fan_ed_cuda(image, options);
   } else if (scan_type == Fan_Equal_Angle) {
-    return fbp_prj_fan_ea_cuda(image, options);
+    return bprj_t_fan_ea_cuda(image, options);
   } else if (scan_type == Para) {
-    return fbp_prj_para_cuda(image, options);
+    return bprj_t_para_cuda(image, options);
   } else {
     exit(0);
   }
 }
 
-torch::Tensor fbp_backprojection(torch::Tensor projection, torch::Tensor options) {
+torch::Tensor backprojection(torch::Tensor projection, torch::Tensor options) {
   CHECK_INPUT(projection);
   CHECK_INPUT(options);
   int scan_type = options[static_cast<int>(options.size(0))-1].item<int>();
   if (scan_type == Fan_Equal_Distance){
-    return fbp_bprj_fan_ed_cuda(projection, options);
+    return bprj_fan_ed_cuda(projection, options);
   } else if (scan_type == Fan_Equal_Angle) {
-    return fbp_bprj_fan_ea_cuda(projection, options);
+    return bprj_fan_ea_cuda(projection, options);
   } else if (scan_type == Para) {
-    return fbp_bprj_para_cuda(projection, options);
+    return bprj_para_cuda(projection, options);
   } else {
     exit(0);
   }
@@ -57,16 +57,16 @@ torch::Tensor projection(torch::Tensor image, torch::Tensor options) {
   }
 }
 
-torch::Tensor backprojection(torch::Tensor projection, torch::Tensor options) {
+torch::Tensor projection_t(torch::Tensor projection, torch::Tensor options) {
   CHECK_INPUT(projection);
   CHECK_INPUT(options);
   int scan_type = options[static_cast<int>(options.size(0))-1].item<int>();
   if (scan_type == Fan_Equal_Distance){
-    return bprj_fan_ed_cuda(projection, options);
+    return prj_t_fan_ed_cuda(projection, options);
   } else if (scan_type == Fan_Equal_Angle) {
-    return bprj_fan_ea_cuda(projection, options);
+    return prj_t_fan_ea_cuda(projection, options);
   } else if (scan_type == Para) {
-    return bprj_para_cuda(projection, options);
+    return prj_t_para_cuda(projection, options);
   } else {
     exit(0);
   }
@@ -94,9 +94,9 @@ torch::Tensor laplacian(torch::Tensor input, int k) {
 
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   m.def("projection", &projection, "CT projection (CUDA)");
-  m.def("backprojection", &backprojection, "Transpose of CT projection (CUDA)");
-  m.def("fbp_projection", &fbp_projection, "Transpose of backprojection (CUDA)");
-  m.def("fbp_backprojection", &fbp_backprojection, "CT backprojection (CUDA)");
-  m.def("fbp", &fbp, "CT filtered backprojection (CUDA)");
+  m.def("projection_t", &projection_t, "Transpose of CT projection (CUDA)");
+  m.def("backprojection_t", &backprojection_t, "Transpose of backprojection (CUDA)");
+  m.def("backprojection", &backprojection, "CT backprojection (CUDA)");
+  m.def("fbp", &fbp, "CT filtered backprojection with RL filter (CUDA)");
   m.def("laplacian", &laplacian, "Graph Laplacian computation (CUDA)");
 }

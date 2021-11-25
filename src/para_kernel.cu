@@ -170,7 +170,7 @@ __global__ void prj_para(
 }
 
 template <typename scalar_t>
-__global__ void bprj_para(
+__global__ void prj_t_para(
     torch::PackedTensorAccessor<scalar_t,4,torch::RestrictPtrTraits,size_t> image,
     const torch::PackedTensorAccessor<scalar_t,4,torch::RestrictPtrTraits,size_t> projection,
     const scalar_t* __restrict__ views, const scalar_t* __restrict__ dets,
@@ -336,7 +336,7 @@ __global__ void bprj_para(
 }
 
 template <typename scalar_t>
-__global__ void fbp_prj_para(
+__global__ void bprj_t_para(
     const torch::PackedTensorAccessor<scalar_t,4,torch::RestrictPtrTraits,size_t> image,
     torch::PackedTensorAccessor<scalar_t,4,torch::RestrictPtrTraits,size_t> projection,
     const scalar_t* __restrict__ views, const scalar_t* __restrict__ dets,
@@ -499,7 +499,7 @@ __global__ void fbp_prj_para(
 }
 
 template <typename scalar_t>
-__global__ void fbp_bprj_para(
+__global__ void bprj_para(
     torch::PackedTensorAccessor<scalar_t,4,torch::RestrictPtrTraits,size_t> image,
     const torch::PackedTensorAccessor<scalar_t,4,torch::RestrictPtrTraits,size_t> projection,
     const scalar_t* __restrict__ views, const scalar_t* __restrict__ dets,
@@ -713,6 +713,68 @@ torch::Tensor prj_para_cuda(torch::Tensor image, torch::Tensor options) {
     return projection;
 }
 
+torch::Tensor prj_t_para_cuda(torch::Tensor projection, torch::Tensor options) {
+    cudaSetDevice(projection.device().index());
+    auto views = options[0];
+    auto dets = options[1];
+    auto width = options[2];
+    auto height = options[3];
+    auto dImg = options[4];
+    auto dDet = options[5];
+    auto Ang0 = options[6];
+    auto dAng = options[7];
+    auto binshift = options[8];
+    const int channels = static_cast<int>(projection.size(0));
+    auto image = torch::zeros({channels, 1, height.item<int>(), width.item<int>()}, projection.options());
+    
+    int nblocksx = ceil(views.item<float>() / GRID_DIM) * channels;
+    int nblocksy = min(views.item<int>(), GRID_DIM);
+    int nblocksz = ceil(dets.item<float>() / BLOCK_DIM);
+    const dim3 blocks(nblocksx, nblocksy, nblocksz);
+
+    AT_DISPATCH_FLOATING_TYPES(projection.type(), "para_backprojection", ([&] {
+        prj_t_para<scalar_t><<<blocks, BLOCK_DIM>>>(
+            image.packed_accessor<scalar_t,4,torch::RestrictPtrTraits,size_t>(),
+            projection.packed_accessor<scalar_t,4,torch::RestrictPtrTraits,size_t>(),
+            views.data<scalar_t>(), dets.data<scalar_t>(), width.data<scalar_t>(),
+            height.data<scalar_t>(), dImg.data<scalar_t>(), dDet.data<scalar_t>(),
+            Ang0.data<scalar_t>(), dAng.data<scalar_t>(), binshift.data<scalar_t>()
+        );
+    }));
+    return image;
+}
+
+torch::Tensor bprj_t_para_cuda(torch::Tensor image, torch::Tensor options) {
+    cudaSetDevice(image.device().index());
+    auto views = options[0];
+    auto dets = options[1];
+    auto width = options[2];
+    auto height = options[3];
+    auto dImg = options[4];
+    auto dDet = options[5];
+    auto Ang0 = options[6];
+    auto dAng = options[7];
+    auto binshift = options[8];
+    const int channels = static_cast<int>(image.size(0));
+    auto projection = torch::empty({channels, 1, views.item<int>(), dets.item<int>()}, image.options());
+    
+    int nblocksx = ceil(views.item<float>() / GRID_DIM) * channels;
+    int nblocksy = min(views.item<int>(), GRID_DIM);
+    int nblocksz = ceil(dets.item<float>() / BLOCK_DIM);
+    const dim3 blocks(nblocksx, nblocksy, nblocksz);
+
+    AT_DISPATCH_FLOATING_TYPES(image.type(), "para_projection", ([&] {
+        bprj_t_para<scalar_t><<<blocks, BLOCK_DIM>>>(
+            image.packed_accessor<scalar_t,4,torch::RestrictPtrTraits,size_t>(),
+            projection.packed_accessor<scalar_t,4,torch::RestrictPtrTraits,size_t>(),
+            views.data<scalar_t>(), dets.data<scalar_t>(), width.data<scalar_t>(),
+            height.data<scalar_t>(), dImg.data<scalar_t>(), dDet.data<scalar_t>(),
+            Ang0.data<scalar_t>(), dAng.data<scalar_t>(), binshift.data<scalar_t>()
+        );
+    }));
+    return projection;
+}
+
 torch::Tensor bprj_para_cuda(torch::Tensor projection, torch::Tensor options) {
     cudaSetDevice(projection.device().index());
     auto views = options[0];
@@ -734,68 +796,6 @@ torch::Tensor bprj_para_cuda(torch::Tensor projection, torch::Tensor options) {
 
     AT_DISPATCH_FLOATING_TYPES(projection.type(), "para_backprojection", ([&] {
         bprj_para<scalar_t><<<blocks, BLOCK_DIM>>>(
-            image.packed_accessor<scalar_t,4,torch::RestrictPtrTraits,size_t>(),
-            projection.packed_accessor<scalar_t,4,torch::RestrictPtrTraits,size_t>(),
-            views.data<scalar_t>(), dets.data<scalar_t>(), width.data<scalar_t>(),
-            height.data<scalar_t>(), dImg.data<scalar_t>(), dDet.data<scalar_t>(),
-            Ang0.data<scalar_t>(), dAng.data<scalar_t>(), binshift.data<scalar_t>()
-        );
-    }));
-    return image;
-}
-
-torch::Tensor fbp_prj_para_cuda(torch::Tensor image, torch::Tensor options) {
-    cudaSetDevice(image.device().index());
-    auto views = options[0];
-    auto dets = options[1];
-    auto width = options[2];
-    auto height = options[3];
-    auto dImg = options[4];
-    auto dDet = options[5];
-    auto Ang0 = options[6];
-    auto dAng = options[7];
-    auto binshift = options[8];
-    const int channels = static_cast<int>(image.size(0));
-    auto projection = torch::empty({channels, 1, views.item<int>(), dets.item<int>()}, image.options());
-    
-    int nblocksx = ceil(views.item<float>() / GRID_DIM) * channels;
-    int nblocksy = min(views.item<int>(), GRID_DIM);
-    int nblocksz = ceil(dets.item<float>() / BLOCK_DIM);
-    const dim3 blocks(nblocksx, nblocksy, nblocksz);
-
-    AT_DISPATCH_FLOATING_TYPES(image.type(), "para_projection", ([&] {
-        fbp_prj_para<scalar_t><<<blocks, BLOCK_DIM>>>(
-            image.packed_accessor<scalar_t,4,torch::RestrictPtrTraits,size_t>(),
-            projection.packed_accessor<scalar_t,4,torch::RestrictPtrTraits,size_t>(),
-            views.data<scalar_t>(), dets.data<scalar_t>(), width.data<scalar_t>(),
-            height.data<scalar_t>(), dImg.data<scalar_t>(), dDet.data<scalar_t>(),
-            Ang0.data<scalar_t>(), dAng.data<scalar_t>(), binshift.data<scalar_t>()
-        );
-    }));
-    return projection;
-}
-
-torch::Tensor fbp_bprj_para_cuda(torch::Tensor projection, torch::Tensor options) {
-    cudaSetDevice(projection.device().index());
-    auto views = options[0];
-    auto dets = options[1];
-    auto width = options[2];
-    auto height = options[3];
-    auto dImg = options[4];
-    auto dDet = options[5];
-    auto Ang0 = options[6];
-    auto dAng = options[7];
-    auto binshift = options[8];
-    const int channels = static_cast<int>(projection.size(0));
-    auto image = torch::zeros({channels, 1, height.item<int>(), width.item<int>()}, projection.options());
-    
-    int nblocksx = ceil(views.item<float>() / GRID_DIM) * channels;
-    int nblocksy = min(views.item<int>(), GRID_DIM);
-    int nblocksz = ceil(dets.item<float>() / BLOCK_DIM);
-    const dim3 blocks(nblocksx, nblocksy, nblocksz);
-
-    AT_DISPATCH_FLOATING_TYPES(projection.type(), "para_backprojection", ([&] {
-        fbp_bprj_para<scalar_t><<<blocks, BLOCK_DIM>>>(
             image.packed_accessor<scalar_t,4,torch::RestrictPtrTraits,size_t>(),
             projection.packed_accessor<scalar_t,4,torch::RestrictPtrTraits,size_t>(),
             views.data<scalar_t>(), dets.data<scalar_t>(), width.data<scalar_t>(),
@@ -833,10 +833,10 @@ torch::Tensor fbp_para_cuda(torch::Tensor projection, torch::Tensor options) {
             filter.data<scalar_t>(), dets.data<scalar_t>(), dDet.data<scalar_t>());
     }));   
     
-    auto filtered_projection = torch::conv2d(rectweight, filter, {}, 1, {0, dets.item<int>()-1});   
+    auto filtered_projection = torch::conv2d(rectweight, filter, {}, 1, torch::IntArrayRef({0, dets.item<int>()-1}));   
 
     AT_DISPATCH_FLOATING_TYPES(projection.type(), "para_w_backprojection", ([&] {
-        fbp_bprj_para<scalar_t><<<blocks, BLOCK_DIM>>>(
+        bprj_para<scalar_t><<<blocks, BLOCK_DIM>>>(
             image.packed_accessor<scalar_t,4,torch::RestrictPtrTraits,size_t>(),
             filtered_projection.packed_accessor<scalar_t,4,torch::RestrictPtrTraits,size_t>(),
             views.data<scalar_t>(), dets.data<scalar_t>(), width.data<scalar_t>(),

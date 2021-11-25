@@ -28,11 +28,11 @@ You may fail to install this lib because
 ## API
 ``projection(image, options)``: Projector of CT
 
-``backprojection(projection, options)``: Transpose of projector
+``projection_t(projection, options)``: Transpose of projector
 
-``fbp_projection(image, options)``: Transpose of backprojector
+``backprojection_t(image, options)``: Transpose of backprojector
 
-``fbp_backprojection(projection, options)``: Backprojector of CT
+``backprojection(projection, options)``: Backprojector of CT
 
 ``fbp(projection, options)``: FBP with RL filter
 

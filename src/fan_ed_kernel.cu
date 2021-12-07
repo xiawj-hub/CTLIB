@@ -338,7 +338,9 @@ __global__ void prj_t_fan_ed(
             } else {
                 coef[tx] = (prj[tx] + prj[tx-1]) / 2;
             }
-            __syncthreads();
+        }        
+        __syncthreads();
+        if (dIndex < *dets) {
             if (ang_error >= 3 && ang_error < 7) {
                 prj[tx] = projection[idxchannel][0][idxview][static_cast<unsigned int>(*dets)-1-dIndex];
             } else {
@@ -432,7 +434,9 @@ __global__ void prj_t_fan_ed(
             } else {
                 coef[tx] = (prj[tx] + prj[tx-1]) / 2;
             }
-            __syncthreads();
+        }
+        __syncthreads();
+        if (dIndex < *dets) {
             if (ang_error >= 3 && ang_error < 7) {
                 prj[tx] = projection[idxchannel][0][idxview][static_cast<unsigned int>(*dets)-1-dIndex];
             } else {

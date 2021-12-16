@@ -25,7 +25,7 @@ You may fail to install this lib because the bug of pytorch, you can search the 
 The verified environments include
 1) Win 10, CUDA 10.2 pytorch > 1.7.0
 2) Linux 16.04, CUDA 10.2 pytorch 1.7.0
-3) Linux 18.04, CUDA 11.3 pytorch 1.10.0
+3) Linux 18.04, CUDA 11.3 pytorch 1.10.0, you can pull the docker of this environment ```docker pull xwj90620/ctlib_pytorch:1.0```
 
 ## API
 ``projection(image, options)``: Projector of CT

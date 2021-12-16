@@ -21,9 +21,11 @@ python setup.py install
 
 For linux installation, remove `library_dirs` and `extra_link_args` in setup.py first.
 
-You may fail to install this lib because
-1) Your linux version is Ubuntu 18.04 or higher, this lib will be fialed to complie with g++ 7. You need to install the lower version of g++ and gcc.
-2) The bug of pytorch. You can search the error code and find the solution in Stackoverflow.
+You may fail to install this lib because the bug of pytorch, you can search the error code and find the solution in Stackoverflow.
+The verified environments include
+1) Win 10, CUDA 10.2 pytorch > 1.7.0
+2) Linux 16.04, CUDA 10.2 pytorch 1.7.0
+3) Linux 18.04, CUDA 11.3 pytorch 1.10.0
 
 ## API
 ``projection(image, options)``: Projector of CT

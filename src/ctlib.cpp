@@ -42,6 +42,17 @@ torch::Tensor backprojection(torch::Tensor projection, torch::Tensor options) {
   }
 }
 
+torch::Tensor backprojection_sv(torch::Tensor projection, torch::Tensor options) {
+  CHECK_INPUT(projection);
+  CHECK_INPUT(options);
+  int scan_type = options[static_cast<int>(options.size(0))-1].item<int>();
+  if (scan_type == Fan_Equal_Distance){
+    return bprj_sv_fan_ed_cuda(projection, options);
+  } else {
+    exit(0);
+  }
+}
+
 torch::Tensor projection(torch::Tensor image, torch::Tensor options) {
   CHECK_INPUT(image);
   CHECK_INPUT(options);
@@ -97,6 +108,7 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   m.def("projection_t", &projection_t, "Transpose of CT projection (CUDA)");
   m.def("backprojection_t", &backprojection_t, "Transpose of backprojection (CUDA)");
   m.def("backprojection", &backprojection, "CT backprojection (CUDA)");
+  m.def("backprojection_sv", &backprojection_sv, "CT backprojection single view (CUDA)");
   m.def("fbp", &fbp, "CT filtered backprojection with RL filter (CUDA)");
   m.def("laplacian", &laplacian, "Graph Laplacian computation (CUDA)");
 }

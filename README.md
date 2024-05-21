@@ -14,18 +14,24 @@ If you use the code, please cite our work
 }
 ```
 ## Installation
-Make sure PyTorch and CUDA have been installed correctly and then
+The following is the step-by-step instruction to install this lib using conda
+Create Conda environment
+```
+conda create -n ctlib
+```
+Enter the enviroment and install pytorch
+```
+conda activate ctlib
+conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+```
+Notice: Usually the cudatoolkit installed from nvidia channel will provide the complier. But if you install the previous pytorch version using earlier cudatoolkit which is not from nvidia channel, the cudatoolkit may not include the complier. The later installation will report the error that can't find nvcc. If so, you need install the lib of cudatoolkit-dev as follows:
+```
+conda install cudatoolkit-dev -c conda-forge
+```
+Move the the directory of this lib, and then compile and install
 ```
 python setup.py install
 ```
-
-For linux installation, remove `library_dirs` and `extra_link_args` in setup.py first.
-
-You may fail to install this lib because the bug of pytorch, you can search the error code and find the solution in Stackoverflow.
-The verified environments include
-1) Win 10, CUDA 10.2 pytorch > 1.7.0
-2) Linux 16.04, CUDA 10.2 pytorch 1.7.0
-3) Linux 18.04, CUDA 11.3 pytorch 1.10.0, you can pull the docker of this environment ```docker pull xwj90620/ctlib_pytorch:1.0```
 
 ## API
 ``projection(image, options)``: Projector of CT

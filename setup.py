@@ -13,8 +13,7 @@ setup(
             'src/para_kernel.cu',
             'src/laplacian_cuda_kernel.cu',
         ],
-        library_dirs=['C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v10.1\\lib\\x64'],
-        extra_link_args=['c10_cuda.lib','cudnn.lib','cublas.lib']),
+        ),
     ],
     cmdclass={
         'build_ext': BuildExtension

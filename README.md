@@ -29,7 +29,7 @@ Notice: Usually the cudatoolkit installed from nvidia channel will provide the c
 ```
 conda install cudatoolkit-dev -c conda-forge
 ```
-Move the the directory of this lib, and then compile and install
+Move to the the directory of this lib, and then compile and install
 ```
 python setup.py install
 ```
